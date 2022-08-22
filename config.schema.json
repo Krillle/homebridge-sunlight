@@ -23,6 +23,24 @@
                 "description": "If API key is provided, sunhsine is reported only during daylight times when sky is not overcast",
                 "required": false
             },
+            "sun": {
+                "type": "number",
+                "title": "OpenWeather API minimum sun threshold",
+                "description": "If API key is provided, this value set minimum sun threshold",
+                "required": true,
+                "default": 10,
+                "minimum": 0,
+                "maximum": 100
+            },
+            "overcast": {
+                "type": "number",
+                "title": "OpenWeather API maximum overcast threshold",
+                "description": "If API key is provided, this value set maximum overcast threshold",
+                "required": true,
+                "default": 25,
+                "minimum": 0,
+                "maximum": 100
+            },
             "sensors": {
                 "type": "array",
                 "title": "Sensors",
