@@ -69,6 +69,24 @@
                             "title": "Upper Threshold",
                             "description": "Right side of sky section within which the sensor should activate",
                             "required": true
+                        },
+                        "lowerAltitudeThreshold": {
+                            "type": "number",
+                            "title": "Lower Altitude Threshold",
+                            "description": "Lower altitude threshold within which the sensor should activate",
+                            "required": true,
+                            "default": 0,
+                            "minimum": 0,
+                            "maximum": 90
+                        },
+                        "upperAltitudeThreshold": {
+                            "type": "number",
+                            "title": "Upper Altitude Threshold",
+                            "description": "Upper altitude threshold within which the sensor should activate",
+                            "required": true,
+                            "default": 90,
+                            "minimum": 0,
+                            "maximum": 90
                         }
                     }
                 }

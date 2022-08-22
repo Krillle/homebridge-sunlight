@@ -32,13 +32,13 @@ class SunlightAccessory {
 
   initializeAccessory() {
     const { config } = this;
-    const { lowerThreshold, upperThreshold } = config;
+    const { lowerThreshold, upperThreshold, lowerAltitudeThreshold, upperAltitudeThreshold } = config;
     const uuid = UUIDGen.generate(config.name);
     const accessory = new Accessory(config.name, uuid);
     // Add Device Information
     accessory.getService(Service.AccessoryInformation)
       .setCharacteristic(Characteristic.Manufacturer, 'Krillle')
-      .setCharacteristic(Characteristic.Model, 'Azimuth ' + lowerThreshold + '-' + upperThreshold)
+      .setCharacteristic(Characteristic.Model, 'Azimuth ' + lowerThreshold + '-' + upperThreshold + ' Altitude ' + lowerAltitudeThreshold + '-' + upperAltitudeThreshold)
       .setCharacteristic(Characteristic.SerialNumber, '---');
 
     const SensorService = accessory.addService(Service.ContactSensor, config.name);
@@ -81,8 +81,9 @@ class SunlightAccessory {
   updateState() {
     const { config, platformConfig, log } = this;
     const { lat, long, apikey, sun, overcast } = platformConfig;
-    const { lowerThreshold, upperThreshold } = config;
+    const { lowerThreshold, upperThreshold, lowerAltitudeThreshold, upperAltitudeThreshold } = config;
     const threshold = [lowerThreshold, upperThreshold];
+    const altitudeThreshold = [lowerAltitudeThreshold, upperAltitudeThreshold];
 
     if (!lat || !long || typeof lat !== 'number' || typeof long !== 'number') {
       log('Error: Lat/Long incorrect. Please refer to the README.');
@@ -91,8 +92,10 @@ class SunlightAccessory {
 
     const sunPos = suncalc.getPosition(Date.now(), lat, long);
     let sunPosDegrees = Math.abs((sunPos.azimuth * 180) / Math.PI + 180);
+    let sunPosAltitude = Math.abs(sunPos.altitude * 90);
 
     if (platformConfig.debugLog) log(`Current azimuth: ${sunPosDegrees}°`);
+    if (platformConfig.debugLog) log(`Current altitude: ${sunPosAltitude}°`);
 
     if (threshold[0] > threshold[1]) {
       const tempThreshold = threshold[1];
@@ -101,7 +104,7 @@ class SunlightAccessory {
     }
 
     let newState;
-    if (sunPosDegrees >= threshold[0] && sunPosDegrees <= threshold[1]) {
+    if (sunPosDegrees >= threshold[0] && sunPosDegrees <= threshold[1] && sunPosAltitude >= altitudeThreshold[0] && sunPosAltitude <= altitudeThreshold[1]) {
       newState = true;
     } else {
       newState = false;
