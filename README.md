@@ -24,6 +24,8 @@ See `config-sample.json` for an example config. This plugin can also be configur
 | `lat`      | Latitude of the location the sun position should be calculated for   |
 | `long`     | Longitude of the location the sun position should be calculated for  |
 | `apikey`     | Your [OpenWeather API key](https://openweathermap.org/api), optional  |
+| `sun` | OpenWeather API minimum sun threshold |
+| `overcast` | OpenWeather API maximum overcast threshold |
 | `sensors`  | Array of objects containing configuration for the sensors, see below |
 | `debugLog` | Debug log output, optional, default: false                 |
 
@@ -36,6 +38,8 @@ Define contact sensors for one or more sections of the sky, e.g. for windows loo
 | `name`           | Display name of the sensor                                                                                |
 | `lowerThreshold` | Left side of sky section within which the sensor should activate |
 | `upperThreshold` | Right side of sky section within which the sensor should activate |
+| `lowerAltitudeThreshold` | Lower Altitude Threshold |
+| `upperAltitudeThreshold` | Upper Altitude Threshold |
 
 **Thresholds example**: If you want the sensor to turn on when the sun is between 0° and 90° azimuth, set the lower threshold to 0 and the upper threshold to 90. See the example configuration file for a basic set-up (north, east, south, west).
 
